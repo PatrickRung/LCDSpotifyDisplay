@@ -4,9 +4,10 @@ import time
 from datetime import datetime, timedelta
 from flask import Flask, redirect, request, jsonify, session
 import serial
-
-
-
+######################################################
+#MUST BE ASSIGNED
+port = 'COM4'
+######################################################
 app  = Flask(__name__)
 app.secret_key = '53d355f8-571a-4590-1310-1f9579440851'
 
