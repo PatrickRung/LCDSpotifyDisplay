@@ -1,4 +1,7 @@
 # LCDSpotifyDisplay
+
+Demo video: https://www.youtube.com/watch?v=cyiHHo1h14U&ab_channel=AWaterBottleThatAlmostHasADegree
+
 Connects your Spotify to an LCD screen so you can flex how good your music taste is in style
 
 Uses Arduino UNO connected to an IC2 LCD screen
