@@ -2,6 +2,7 @@
 
 #include "Wire.h" 
 #include "LiquidCrystal_I2C.h" 
+#include <string.h>
 
 
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 16, 2); 
@@ -16,12 +17,20 @@ void setup() {
 
 void loop() {
   //start listening to the to the serial monitor and wait for new input
-  currLine = Serial.readString();
-  int SepSpot = currLine.indexOf('-');
-  String title = currLine.substring(0,SepSpot);
-  String artist = currLine.substring(SepSpot + 1,currLine.length());
-  lcd.setCursor(0, 0); 
-  lcd.print(title); 
-  lcd.setCursor(0, 1); 
-  lcd.print(artist);
+    if (Serial.available() > 0) {
+    currLine = Serial.readString();
+    int SepSpot = currLine.indexOf('-');
+    String title = currLine.substring(0,SepSpot);
+    String artist = currLine.substring(SepSpot + 1,currLine.length());
+    //write to screen
+
+    lcd.clear();
+
+    lcd.setCursor(0, 0); 
+    lcd.print(title); 
+    lcd.setCursor(0, 1); 
+    lcd.print(artist);
+  }
+
+  
 }

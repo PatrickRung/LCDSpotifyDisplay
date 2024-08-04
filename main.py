@@ -19,6 +19,8 @@ AUTH_URL = 'https://accounts.spotify.com/authorize'
 TOKEN_URL = 'https://accounts.spotify.com/api/token'
 API_BASE_URL = 'https://api.spotify.com/v1/'
 
+previousMessege = ""
+
 @app.route('/')
 def index():
     return "welcome! <a href='/login'>Login with Spotify</a>"
@@ -71,10 +73,6 @@ def get_playlists():
     headers = {
         'Authorization': f"Bearer {session['access_token']}"
     }
-    response = requests.get(API_BASE_URL + 'me/player', headers=headers)
-    if response.status_code == 204:
-        return redirect('/playlists')
-    playlists = response.json()
 
 
     #setup serial monitor
@@ -83,12 +81,20 @@ def get_playlists():
     while(True):
         time.sleep(3)
         response = requests.get(API_BASE_URL + 'me/player', headers=headers)
+
+        if response.status_code == 302:
+            return redirect('/login')
+        if response.status_code < 204:
+            message = 'Nothing Being-Played'
         playlists = response.json()
         message = playlists['item']['name'] + '-' + playlists['item']['artists'][0]['name']
+
         print()
         print(message)
         print()
-        ser.write(message.encode('utf-8'))
+        if(previousMessege != message):
+            ser.write(message.encode('utf-8'))
+
     return jsonify(playlists)
 
 @app.route('/refresh-token')
